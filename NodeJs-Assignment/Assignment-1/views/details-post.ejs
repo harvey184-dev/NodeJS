@@ -1,0 +1,42 @@
+<section>
+    <div class="bg_in">
+        <div class="wrapper_all_main">
+            <div class="breadcrumbs">
+                <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="/">
+                            <span itemprop="name">Trang chủ</span></a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="/danhmuctintuc/<%= baiviet.id_category_post %>">
+                            <span itemprop="name">
+                                <%= baiviet.title_category_post %>
+                            </span></a>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <span itemprop="item">
+                            <strong itemprop="name">
+                                <%= baiviet.title_post %>
+                            </strong>
+                        </span>
+                        <meta itemprop="position" content="3" />
+                    </li>
+                </ol>
+            </div>
+            <div class="content_page">
+                <div class="box-title">
+                    <div class="title-bar">
+                        <h1>
+                            <%= baiviet.title_post %>
+                        </h1>
+                    </div>
+                    <div class="content_text">
+                        <%- baiviet.content_post.replace(/"/g, '' ) %>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+</section>

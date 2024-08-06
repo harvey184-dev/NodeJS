@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="website icon" type="jpg" href="../public/images/icon.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script>
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (!isLoggedIn) {
+                window.location.href = '../../login.html';
+            }
+        }
+
+        checkLoginStatus();
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="../index.html">Admin</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="../index.html">Trang chủ</a></li>
+
+                    <li><a href="#">Thông tin website</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục Bài viết
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="add_category.html">Thêm</a></li>
+                            <li><a href="list_category.html">Liệt kê</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bài viết
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="add_post.html">Thêm</a></li>
+                            <li><a href="list_post.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../product/add_category.html">Thêm</a></li>
+                            <li><a href="../product/list_category.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sản phẩm
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../product/add_product.html">Thêm</a></li>
+                            <li><a href="../product/list_product.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Đơn hàng
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+
+                            <li><a href="../order/order.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li><a onclick="dx()">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-----------End Menu----------------->
+        <h3 style="text-align: center;">Sửa danh mục bài viết</h3>
+        <div class="col-md-6">
+            <form id="edit_category_form">
+                <script>
+                    let params = new URLSearchParams(location.search)
+                    let id_category_post = Number(params.get('id_category_post'))
+
+                    fetch(`http://localhost:3000/categorypost/${id_category_post}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            let text = ``;
+                            data.forEach(c => text += text1(c))
+                            document.querySelector('#edit_category_form').innerHTML = text
+                        })
+
+                    const text1 = (c) => {
+                        return `<div class="form-group">
+                    <label for="email">Tên danh mục</label>
+                    <input type="text" id="title_category_post" value="${c.title_category_post}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Miêu tả danh mục</label>
+                    <textarea rows="5" id="editor" class="form-control">${c.desc_category_post}</textarea>
+                </div>
+
+                <button type="submit" class="btn btn-default">Thêm danh mục</button>`
+                    }
+                </script>
+
+            </form>
+        </div>
+    </div>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<script type="text/javascript">
+
+    CKEDITOR.replace('editor');
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('edit_category_form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let title_category_post = document.getElementById('title_category_post').value;
+            let desc_category_post = CKEDITOR.instances.editor.getData();
+
+            let data = {
+                title_category_post: title_category_post,
+                desc_category_post: desc_category_post
+            };
+
+            fetch(`http://localhost:3000/admin/edit_category_post/${id_category_post}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Thêm sản phẩm không thành công');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    window.location.href = 'list_category.html';
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                });
+        });
+    });
+
+</script>
+<script src="../../../model/login.js"></script>
+</html>

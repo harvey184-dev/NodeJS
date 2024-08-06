@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Welcome to <%= title %>
+  </p>
+</body>
+
+</html>
+<script>
+  function deleteUser(userId) {
+    let url = "http://localhost:3000/users/" + userId;
+
+    fetch(url, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Xử lý dữ liệu phản hồi sau khi xóa thành công
+        console.log('User deleted successfully:', data);
+      })
+      .catch(error => {
+        // Xử lý lỗi
+        console.error('There was a problem deleting the user:', error);
+      });
+  }
+</script>

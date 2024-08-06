@@ -1,0 +1,79 @@
+<h1>Danh sách users</h1>'
+<div id='listuser'></div>
+<a href="/dangky" style="color: #fff;
+background-color: #28a745;
+padding: 8px 12px;
+border-radius: 4px;
+text-decoration: none;
+margin-left: 300px;">Đăng ký</a>
+<script>
+    let urlapi = "http://localhost:3000/users/";
+    fetch(urlapi)
+        .then(function (res) {
+            console.log(res);
+            if (!res.ok) { throw new Error("Lỗi = " + res.status); }
+            return res.json();
+        })
+        .then(function (data) {
+            let kq = document.getElementById('listuser');
+            data.forEach(u => {
+                kq.innerHTML += `<div class="user-info">
+                    <p> User: ${u.username} <br> Pass: ${u.password}</p>
+                    <a href="/chitietuser/${u.idUser}">Chi tiết user</a>
+                    <a href="/delete/${u.idUser}">Xóa sản phẩm</a>
+                    <a href="/update/${u.idUser}">Cập nhập sản phẩm</a>
+                </div>`;
+            });
+        })
+        .catch(function (error) {
+            console.log("Lỗi: ", error);
+        });
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    #listuser {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 600px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        /* Sắp xếp các phần tử theo chiều ngang và canh giữa */
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .user-info p {
+        margin: 0;
+    }
+
+    .user-info a {
+        color: #fff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .user-info a:hover {
+        background-color: #218838;
+    }
+</style>

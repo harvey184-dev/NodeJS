@@ -1,0 +1,31 @@
+<h3 style="text-align: center;">Liệt kê danh mục sản phẩm</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Tên danh mục</th>
+      <th>Mô tả</th>
+      <th>Quản lý</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let dm of category) { %>
+      <tr>
+        <td>
+          <%= dm.id_category_product %>
+        </td>
+        <td>
+          <%= dm.title_category_product %>
+        </td>
+        <td>
+          <%= dm.desc_category_product.replace(/"/g, '\\"' ) %>
+        </td>
+        <td><a href="/admin/xoadanhmucsanpham/<%= dm.id_category_product %>">Xóa</a>
+          || <a href="<?php echo BASE_URL ?>/product/edit_category/<?php echo $cate['id_category_product'] ?>">Cập
+            nhật</a></td>
+      </tr>
+      <% } %>
+
+  </tbody>
+</table>

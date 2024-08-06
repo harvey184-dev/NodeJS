@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="website icon" type="jpg" href="../public/images/icon.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script>
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (!isLoggedIn) {
+                window.location.href = '../../login.html';
+            }
+        }
+
+        checkLoginStatus();
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="../index.html">Admin</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="../index.html">Trang chủ</a></li>
+
+                    <li><a href="#">Thông tin website</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục Bài viết
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../post/add_category.html">Thêm</a></li>
+                            <li><a href="../post/list_category.html">Liệt kê</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bài viết
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../post/add_post.html">Thêm</a></li>
+                            <li><a href="../post/list_post.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="add_category.html">Thêm</a></li>
+                            <li><a href="list_category.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sản phẩm
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="add_product.html">Thêm</a></li>
+                            <li><a href="list_product.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Đơn hàng
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+
+                            <li><a href="../order/order.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li><a onclick="dx()">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <h3 style="text-align: center;">Sửa sản phẩm</h3>
+
+        <div class="col-md-6">
+            <form id="add_product_form" enctype="multipart/form-data"></form>
+            <script>
+                let params = new URLSearchParams(location.search)
+                let id_product = Number(params.get('id_product'))
+
+                fetch(`http://localhost:3000/detail_product/${id_product}`).then(res => res.json()).then(data => {
+                    let sp = ``
+                    data.forEach(p => sp += sp1(p))
+                    document.querySelector('#add_product_form').innerHTML = sp
+                })
+                const sp1 = (p) => {
+                    return `<div class="form-group">
+    <label for="title_product">Tên sản phẩm</label>
+    <input type="text" id="title_product" class="form-control" value="${p.title_product}">
+</div>
+<div class="form-group">
+    <label for=" image_product">Hình ảnh sản phẩm</label><br>
+    <img src="../../../public/uploads/product/${p.image_product}" height="200" alt="">
+    <input type="file" id="image_product" class="form-control" value="${p.image_product}">
+</div>
+<div class="form-group">
+    <label for="price_product">Giá sản phẩm</label>
+    <input type="text" id="price_product" class="form-control" value="${p.price_product}">
+</div>
+<div class="form-group">
+    <label for="quantity_product">Số lượng sản phẩm</label>
+    <input type="text" id="quantity_product" class="form-control" value="${p.quantity_product}">
+</div>
+<div class="form-group">
+    <label for="pwd">Miêu tả sản phẩm</label>
+    <textarea id="editor" name="desc_product" rows="5" style="resize: none"
+        class="form-control">${p.desc_product}</textarea>
+</div>
+<div class="form-group">
+    <label for="category_product">Danh mục sản phẩm</label>
+    <select class="form-control" id="category_product">
+        <!-- Option được tạo bằng JavaScript từ API hoặc dữ liệu được cung cấp -->
+    </select>
+</div>
+<div class="form-group">
+    <label for="product_hot">Sản phẩm hot</label>
+    <select class="form-control" id="product_hot">
+        <option value="0">Không</option>
+        <option value="1">Có</option>
+    </select>
+</div>
+<button type="submit" class="btn btn-default">Thêm sản phẩm</button>`
+                }
+            </script>
+        </div>
+    </div>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<script type="text/javascript">
+
+    CKEDITOR.replace('editor');
+
+</script>
+<script src="../../../model/admin.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('add_product_form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+
+            // Lấy giá trị từ các trường input
+            let title_product = document.getElementById('title_product').value;
+            let image_product = document.getElementById('image_product').value.split('\\').pop();;
+            let price_product = document.getElementById('price_product').value;
+            let quantity_product = document.getElementById('quantity_product').value;
+            let desc_product = CKEDITOR.instances.editor.getData();
+            let id_category_product = document.getElementById('category_product').value;
+            let product_hot = document.getElementById('product_hot').value;
+            let view = Math.floor(Math.random() * 1000);
+
+            // Lấy ngày hiện tại
+            let currentDate = new Date();
+            let ngay = currentDate.toISOString();
+
+            // Tạo object chứa dữ liệu sản phẩm
+            let data = {
+                title_product: title_product,
+                image_product: image_product,
+                price_product: price_product,
+                quantity_product: quantity_product,
+                desc_product: desc_product,
+                id_category_product: id_category_product,
+                product_hot: product_hot,
+                date: ngay,
+                view: view
+            };
+
+            // Gửi yêu cầu POST đến API
+            fetch(`http://localhost:3000/admin/edit_product/${id_product}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Sửa sản phẩm không thành công');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    window.location.href = 'list_product.html';
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                });
+        });
+    });
+</script>
+<script src="../../../model/login.js"></script>
+</html>

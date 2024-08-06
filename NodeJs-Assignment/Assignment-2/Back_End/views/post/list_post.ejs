@@ -1,0 +1,61 @@
+<h3 style="text-align: center;">Liệt kê bài viết</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Tên </th>
+      <th>Hình </th>
+      <th>Danh mục </th>
+      <th>Quản lý</th>
+    </tr>
+  </thead>
+  <tbody id="post">
+    <script>
+      fetch('http://localhost:3000/all_post')
+        .then(res => res.json()).then(data => {
+          text = ``
+          data.forEach(p => text += text1(p))
+          document.querySelector('#post').innerHTML = text
+        })
+
+      const text1 = (p) => {
+        return `<tr>
+                    <td>
+                        ${p.id_post}
+                    </td>
+                    <td>
+                        ${p.title_post}
+                    </td>
+                    <td><img src="../../../public/uploads/post/${p.image_post}"
+                            height="100" width="100"></td>
+                    <td>
+                        ${p.title_category_post}
+                    </td>
+
+                    <td><a onclick="xoabv(${p.id_post})">Xóa</a>
+                        || <a href="/admin/edit_post/${p.id_post}">Cập nhật</a></td>
+                </tr>`
+      }
+      function xoabv(id_post) {
+        fetch(`http://localhost:3000/admin/delete_post/${id_post}`, {
+          method: 'DELETE'
+        })
+          .then(res => {
+            if (!res.ok) {
+              throw new Error('Xóa bài viết không thành công');
+            }
+            return res.json();
+          })
+          .then(data => {
+            console.log(data.message);
+            window.location.reload()
+          })
+          .catch(error => {
+            console.error('Lỗi:', error);
+          });
+      }
+
+    </script>
+
+  </tbody>
+</table>

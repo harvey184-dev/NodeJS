@@ -1,0 +1,68 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<div id="listuser"></div>
+<script>
+    var url = "http://localhost:3000/users/";
+    axios.get(url)
+        .then(function (response) {
+            // console.log(response);
+            let str = "";
+            for (i in response.data) {
+                let motuser = response.data[i];
+                console.log(motuser);
+                str += `<div class="user-info">
+                    <p> User: ` + motuser.username + `<br> Pass:` + motuser.password + `</p>
+                    <a href="/chitietuser/`+ motuser.idUser + `">Chi tiết user</a>
+                </div>`;
+            }//for    
+            document.getElementById("listuser").innerHTML += str;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+</script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    #listuser {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 600px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .user-info p {
+        margin: 0;
+    }
+
+    .user-info a {
+        color: #fff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .user-info a:hover {
+        background-color: #218838;
+    }
+</style>

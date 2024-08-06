@@ -1,0 +1,236 @@
+<section>
+    <div class="bg_in">
+        <style type="text/css">
+            .carousel-inner .item img {
+                height: 374px !important;
+            }
+        </style>
+        <div class="col-md-7 col-xs-12 col-sm-12" style="padding: 0;margin-top:10px;">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="/images/s1.jpg" alt="Mô hình DC" width="100%">
+                    </div>
+
+                    <div class="item">
+                        <img src="/images/s2.jpg" alt="Siêu khuyến mãi" width="100%">
+                    </div>
+
+                    <div class="item">
+                        <img src="/images/s3.jpg" alt="Siêu khuyến mãi" width="100%">
+                    </div>
+
+                    <div class="item">
+                        <img src="/images/s4.jpg" alt="Siêu khuyến mãi" width="100%">
+                    </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12 col-sm-12" style="padding: 0;margin-left:30px;margin-top:5px;">
+            <div class="row">
+                <div class="panel  panel-warning panel-styling">
+                    <div class="panel-heading">Tin tức cập nhật</div>
+                    <div class="panel-body scrollable-panel">
+                        <% for (let bv of baiviet) { %>
+                            <div class="row">
+                                <div class="col-md-4 col-xs-4 col-sm-4">
+                                    <img src="/uploads/post/<%= bv.image_post %>">
+                                </div>
+                                <div class="col-md-8 col-xs-8 col-sm-8">
+                                    <h4>
+                                        <%= bv.title_post %>
+                                    </h4>
+                                    <p>
+                                        <%- bv.content_post.replace(/"/g, '' ).substring(0, 100) + '...' %>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</section>
+
+<section>
+    <div class="bg_in">
+        <style type="text/css">
+            .grids.home_product {
+                height: 372px;
+            }
+        </style>
+        <div class="module_pro_all">
+            <div class="box-title">
+                <div class="title-bar">
+                    <h1>Sản phẩm HOT</h1>
+
+                    <a class="read_more" href="#">
+                        Xem thêm
+                    </a>
+                </div>
+            </div>
+            <div class="pro_all_gird">
+                <div class="girds_all list_all_other_page ">
+                    <% for (let sp of sanpham) { if(sp.product_hot==1) %>
+                        <form action="#">
+
+                            <input type="hidden" value="<?php echo $product['id_product'] ?>" name="product_id">
+                            <input type="hidden" value="<%= sp.title_product %>" name="product_title">
+                            <input type="hidden" value="<%= sp.image_product %>" name="product_image">
+                            <input type="hidden" value="<%= sp.price_product %>" name="product_price">
+                            <input type="hidden" value="1" name="product_quantity">
+
+                            <div class="grids home_product">
+
+                                <div class="grids_in">
+                                    <div class="content">
+
+                                        <div class="img-right-pro">
+
+                                            <a href="#">
+                                                <img class="lazy img-pro content-image pic"
+                                                    src="/uploads/product/<%= sp.image_product %>"
+                                                    data-original="image/iphone.png" alt="<%= sp.title_product %>" />
+                                            </a>
+
+                                            <div class="content-overlay"></div>
+                                            <div class="content-details fadeIn-top">
+                                                <%- sp.desc_product.replace(/"/g, '\\"' ) %>
+                                            </div>
+                                        </div>
+
+                                        <div class="name-pro-right">
+                                            <a href="/chitietsanpham/<%= sp.id_product %>">
+                                                <h3>
+                                                    <%= sp.title_product %>
+                                                </h3>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <input type="submit" style="box-shadow: none" class="btn btn-success btn-sm"
+                                                name="addcart" value="Đặt hàng">
+                                        </div>
+                                        <div class="price_old_new">
+                                            <div class="price">
+                                                <span class="news_price">
+                                                    <%= sp.price_product.toLocaleString('vi') %>đ
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <% } %>
+
+                            <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <% for (let dm of danhmuc) { %>
+            <div class="module_pro_all">
+                <div class="box-title">
+                    <div class="title-bar">
+                        <h1>
+                            <%= dm.title_category_product %>
+                        </h1>
+                        <a class="read_more" href="/danhmucsanpham/<%= dm.id_category_product %>">
+                            Xem thêm
+                        </a>
+                    </div>
+                </div>
+                <div class="pro_all_gird">
+                    <div class="girds_all list_all_other_page ">
+                        <% for (let sp1 of sanpham) { if (sp1.id_category_product==dm.id_category_product) { %>
+                            <form action="#">
+
+                                <input type="hidden" value="<?php echo $product['id_product'] ?>" name="product_id">
+                                <input type="hidden" value="<%= sp1.title_product %>" name="product_title">
+                                <input type="hidden" value="<%= sp1.image_product %>" name="product_image">
+                                <input type="hidden" value="<%= sp1.price_product %>" name="product_price">
+                                <input type="hidden" value="1" name="product_quantity">
+
+                                <div class="grids home_product">
+
+                                    <div class="grids_in">
+                                        <div class="content">
+
+                                            <div class="img-right-pro">
+
+                                                <a href="#">
+                                                    <img class="lazy img-pro content-image pic"
+                                                        src="/uploads/product/<%= sp1.image_product %>"
+                                                        data-original="image/iphone.png"
+                                                        alt="<%= sp1.title_product %>" />
+                                                </a>
+
+                                                <div class="content-overlay"></div>
+                                                <div class="content-details fadeIn-top">
+                                                    <%- sp1.desc_product.replace(/"/g, '\\"' ) %>
+                                                </div>
+                                            </div>
+
+                                            <div class="name-pro-right">
+                                                <a href="/chitietsanpham/<%= sp1.id_product %>">
+                                                    <h3>
+                                                        <%= sp1.title_product %>
+                                                    </h3>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <input type="submit" style="box-shadow: none"
+                                                    class="btn btn-success btn-sm" name="addcart" value="Đặt hàng">
+                                            </div>
+                                            <div class="price_old_new">
+                                                <div class="price">
+                                                    <span class="news_price">
+                                                        <%= sp1.price_product.toLocaleString('vi') %>đ
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <% } } %>
+
+                                <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <% } %>
+
+
+
+
+</section>
+
+<!--end:body-->
+<div class="clear"></div>

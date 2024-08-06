@@ -1,0 +1,97 @@
+<h3 style="text-align: center;">Thêm bài viết</h3>
+
+<div class="col-md-6">
+	<form id="add_post_form" enctype="multipart/form-data">
+		<script>
+			const path = window.location.pathname;
+			const parts = path.split('/');
+			const id_post = parts[parts.length - 1];
+			console.log(id_post);
+			fetch(`http://localhost:3000/detail_post/${id_post}`)
+				.then(res => res.json()).then(data => {
+					let t = ``
+					data.forEach(p => t += t1(p))
+					document.querySelector('#add_post_form').innerHTML = t
+				})
+
+			const t1 = (p) => {
+				return `<div class="form-group">
+                    <label for="email">Tên bài viết</label>
+                    <input type="text" id="title_post" class="form-control" value="${p.title_post}">
+                </div>
+                <div class="form-group">
+                    <label for="email">Hình ảnh sản phẩm</label><br>
+                    <img src="../../../public/uploads/post/${p.image_post}" height="200" alt="">
+                    <input type="file" id="image_post" class="form-control" value="${p.image_post}">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Chi tiết bài viết</label>
+                    <textarea id="editor" name="content_post" rows="10" style="resize: none"
+                        class="form-control">${p.content_post}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Danh mục bài viết</label>
+                    <select class="form-control" id="category_post">
+                    </select>
+                </div>
+
+                <button type="submit" name="addpost" class="btn btn-default">Thêm bài viết</button>`
+			}
+
+			fetch('http://localhost:3000/categorypost')
+				.then(res => res.json()).then(data => {
+					let text = ``;
+					data.forEach(p => text += text1(p))
+					document.querySelector('#category_post').innerHTML = text
+				})
+
+			const text1 = (p) => {
+				return `<option value="${p.id_category_post}">
+                                    ${p.title_category_post}
+                                </option>`
+			}
+		</script>
+
+	</form>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		document.getElementById('add_post_form').addEventListener('submit', function (event) {
+			event.preventDefault();
+
+			let title_post = document.getElementById('title_post').value;
+			let image_post = document.getElementById('image_post').value.split('\\').pop();;
+			let content_post = CKEDITOR.instances.editor.getData();
+			let id_category_post = document.getElementById('category_post').value;
+
+			let data = {
+				title_post: title_post,
+				image_post: image_post,
+				content_post: content_post,
+				id_category_post: id_category_post,
+			};
+
+			// Gửi yêu cầu POST đến API
+			fetch(`http://localhost:3000/admin/edit_post/${id_post}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(res => {
+					if (!res.ok) {
+						throw new Error('Thêm bài viết không thành công');
+					}
+					return res.json();
+				})
+				.then(data => {
+					console.log(data.message);
+					window.location.href = '/admin/list_post';
+				})
+				.catch(error => {
+					console.error('Lỗi:', error);
+				});
+		});
+	});
+</script>

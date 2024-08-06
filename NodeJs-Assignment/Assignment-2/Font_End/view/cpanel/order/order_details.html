@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="website icon" type="jpg" href="../public/images/icon.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script>
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (!isLoggedIn) {
+                window.location.href = '../../login.html';
+            }
+        }
+
+        checkLoginStatus();
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="../index.html">Admin</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="../index.html">Trang chủ</a></li>
+
+                    <li><a href="#">Thông tin website</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục Bài viết
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../post/add_category.html">Thêm</a></li>
+                            <li><a href="../post/list_category.html">Liệt kê</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bài viết
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../post/add_post.html">Thêm</a></li>
+                            <li><a href="../post/list_post.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../product/add_category.html">Thêm</a></li>
+                            <li><a href="../productlist_category.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sản phẩm
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../product/add_product.html">Thêm</a></li>
+                            <li><a href="../product/list_product.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Đơn hàng
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+
+                            <li><a href="order.html">Liệt kê</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li><a onclick="dx()">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <h3 style="text-align: center;">Liệt kê đơn hàng chi tiết</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tên người đặt</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ghi chú</th>
+
+                </tr>
+            </thead>
+            <tbody id="dhct1">
+                <script>
+                    let params = new URLSearchParams(location.search)
+                    let order_code = Number(params.get('order_code'))
+
+                    fetch(`http://localhost:3000/order_details/${order_code}`)
+                        .then(res => res.json()).then(data => {
+                            let list = ``;
+                            data.forEach(p => list = l2(p))
+                            document.querySelector('#dhct1').innerHTML = list
+                        })
+
+                    const l2 = (p) => {
+                        return `<tr>
+                    <td>
+                        ${p.order_details_id}
+                    </td>
+                    <td>
+                        ${p.name}
+                    </td>
+                    <td>
+                        ${p.email}
+                    </td>
+                    <td>
+                        ${p.sodienthoai}
+                    </td>
+                    <td>
+                        ${p.diachi}
+                    </td>
+                    <td>
+                        ${p.noidung}
+                    </td>
+                </tr>`
+                    }
+                </script>
+
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+
+                </tr>
+            </thead>
+            <tbody id="dhct">
+                <script>
+                    fetch(`http://localhost:3000/order_details/${order_code}`)
+                        .then(res => res.json()).then(data => {
+                            let list1 = ``;
+                            data.forEach(p => list1 += l3(p))
+                            document.querySelector('#dhct').innerHTML = list1
+                        })
+
+                    const l3 = (p) => {
+                        return `<tr>
+                    <td>
+                        ${p.id_product}
+                    </td>
+                    <td>
+                        ${p.title_product}
+                    </td>
+                    <td>
+                        <img src="../../../public/uploads/product/${p.image_product}" height="100" width="100">
+                    </td>
+                    <td>
+                        ${p.product_quantity}
+                    </td>
+                    <td>
+                        ${p.price_product.toLocaleString('vi')}
+                    </td>
+                    <td>
+                        ${(p.product_quantity * p.price_product).toLocaleString('vi')}
+                    </td>
+                </tr>
+                `
+                    }
+                </script>
+
+
+                <form method="POST"
+                    action="<?php echo BASE_URL ?>/order/order_confirm/<?php echo $ord['order_code'] ?>">
+                    <tr>
+                        <td><input type="submit" name="update_order" value="Đã xử lý" class="btn btn-default"></td>
+                        <td align="right" colspan="6" id="tt">
+                            <script></script>
+                        </td>
+                    </tr>
+                </form>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<script type="text/javascript">
+
+    CKEDITOR.replace('editor');
+
+</script>
+<script src="../../../model/login.js"></script>
+
+</html>

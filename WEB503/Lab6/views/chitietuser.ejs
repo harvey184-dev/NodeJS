@@ -1,0 +1,51 @@
+<h1>Chi tiết user</h1>
+<div id="chitietuser"></div>
+<script>
+    let urlapi = `http://localhost:3000/users/<%=id%>`;
+    fetch(urlapi)
+        .then(function (res) {
+            if (!res.ok) { throw new Error("Lỗi = " + res.status); }
+            return res.json();
+        })
+        .then(function (data) {
+            let str = "";
+            str += "<p>Username: " + data.username + "</p>";
+            str += "<p>Họ: " + data.ho + "</p>";
+            str += "<p>Tên: " + data.ten + "</p>";
+            str += "<p>Tỉnh: " + data.tinh + "</p>";
+            str += "<p>Email: " + data.email + "</p>";
+            str += "<p>Sở thích: <br>" + data.sothich + "</p>";
+            document.getElementById("chitietuser").innerHTML = str;
+            console.log(data);
+        })
+        .catch(function (error) { console.log("Lỗi: ", error); })
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    #chitietuser {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 600px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+        margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+</style>

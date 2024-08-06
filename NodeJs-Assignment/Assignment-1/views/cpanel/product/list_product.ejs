@@ -1,0 +1,45 @@
+<h3 style="text-align: center;">Liệt kê sản phẩm</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Tên </th>
+      <th>Hình </th>
+      <th>Danh mục </th>
+      <th>Giá </th>
+      <th>Số lượng</th>
+      <th>Hot</th>
+      <th>Quản lý</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let sp of product) { %>
+      <tr>
+        <td>
+          <%= sp.id_product %>
+        </td>
+        <td>
+          <%= sp.title_product %>
+        </td>
+        <td><img src="/uploads/product/<%= sp.image_product %>" height="100" width="100"></td>
+        <td>
+          <%= sp.title_category_product %>
+        </td>
+        <td>
+          <%= sp.price_product.toLocaleString('vi') %>
+        </td>
+        <td>
+          <%= sp.quantity_product %>
+        </td>
+        <td>
+          <%= sp.product_hot==1 ? "Hot" : "Không" %>
+        </td>
+
+        <td><a href="/admin/xoasanpham/<%= sp.id_product%>">Xóa</a> || <a
+            href="/admin/editsanpham/<%= sp.id_product%>">Cập nhật</a></td>
+      </tr>
+      <% } %>
+
+  </tbody>
+</table>

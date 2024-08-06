@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="content">
+        <form name="frmdk" class="registration-form">
+            <h1>update</h1>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+            </div>
+            <button type="button" onclick="update()">update</button>
+        </form>
+    </div>
+</div>
+<script>
+    function update() {
+        let un = document.frmdk.username.value;
+        let pw = document.frmdk.password.value;
+        let em = document.frmdk.email.value;
+
+        let data = { username: un, password: pw, email: em };
+
+        let params = new URLSearchParams(location.search);
+        let idUser = Number(params.get('idUser'));
+
+        let url = `http://localhost:3000/users/${idUser}`;
+
+        let options = {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: { "Content-type": "application/json; charset=UTF-8" }
+        };
+        fetch(url, options)
+            .then(response => response.json())
+            .then(function (data) {
+                document.frmdk.reset();
+                console.log(data); // Log the response data
+            })
+            .catch(err => console.log(err)); // Log any errors encountered during fetch
+    }
+</script>
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .content {
+        width: 400px;
+    }
+
+    .registration-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .registration-form h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>

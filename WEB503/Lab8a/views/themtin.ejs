@@ -1,0 +1,65 @@
+<h2>Thêm Loại Tin Mới</h2>
+<form action="/addtin" method="post">
+    <label for="idTin">ID Tin:</label><br>
+    <input type="text" id="idTin" name="idTin"><br>
+    <label for="tieuDe">Tiêu đề: </label><br>
+    <input type="text" id="tieuDe" name="tieuDe"><br>
+    <label for="noiDung">Nội dung: </label><br>
+    <input type="text" id="noiDung" name="noiDung"><br>
+    <label for="thuTu">Thứ Tự:</label><br>
+    <input type="text" id="thuTu" name="thuTu"><br>
+    <label for="anhien">Ẩn Hiện:</label><br>
+    <select id="anhien" name="anhien">
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select><br>
+    <label for="idLoai">ID Loại:</label><br><br>
+    <% for (let c of listloaitin ) {  %>
+        <input type="radio" id="idLoai" name="idLoai" value="<%= c.idLoai %>" checked>
+        <%= c.tenLoai %> &nbsp; &nbsp;
+            <% } %>
+                <br><br>
+                <input type="submit" value="Thêm">
+</form>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    form {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>

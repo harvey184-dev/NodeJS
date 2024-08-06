@@ -1,0 +1,79 @@
+<h1>Danh sách loại tin</h1>
+<div id="listuser">
+    <% for (let lt of listloaitin) {%>
+        <div class="user-info">
+            <p>
+                <%=lt.tenLoai%>
+            </p>
+            <a href="/edit/<%=lt.idLoai%>">Sửa loại tin</a>
+            <a href="/delete/<%=lt.idLoai%>">Xóa loại tin</a>
+            <a href="/chitietloai/<%=lt.idLoai%>">Chi tiết loại</a>
+        </div>
+        <% } %>
+            <a href="/them" class="add-link">Thêm loại tin</a>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    #listuser {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 800px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: right;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .user-info p {
+        margin: 0;
+        width: 150px;
+        text-align: left;
+    }
+
+    .user-info a {
+        color: #fff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .user-info a:hover {
+        background-color: #218838;
+    }
+
+    .add-link {
+        color: #fff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .add-link:hover {
+        background-color: #218838;
+    }
+</style>

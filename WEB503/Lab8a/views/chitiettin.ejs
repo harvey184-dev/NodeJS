@@ -1,0 +1,86 @@
+<h1>Chi tiết một loại tin</h1>
+<div id="detail">
+    <div class="d1">
+        <p>Tiêu đề: <%=tin.tieuDe%>
+        </p>
+        <p>Nội dung: <%=tin.noiDung%>
+        </p>
+        <p>Id loại: <%=tin.idLoai%>
+        </p>
+        <p>Thứ tự: <%=tin.thuTu%>
+        </p>
+        <p>Ẩn hiện: <%=(tin.anhien==true) ? "Đang hiện" : "Đang ẩn" %>
+        </p>
+    </div>
+    <div class="d2">
+        <a href="/edittin/<%=tin.idTin%>" class="action-link">Sửa tin</a>
+        <a href="/deletetin/<%=tin.idTin%>" class="action-link">Xóa tin</a>
+    </div>
+    <a href="/tin" class="home">Về Trang Tin</a>
+</div>
+<style>
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    #detail {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        justify-content: space-between;
+    }
+
+    #detail p {
+        margin: 0;
+        font-size: 20px;
+        margin: 20px;
+    }
+
+    .d1 {
+        flex-grow: 1;
+        margin-left: 20px;
+    }
+
+    .d2 {
+        display: flex;
+    }
+
+    .d2 a {
+        margin: 20px;
+        width: 45%;
+    }
+
+    .action-link {
+        display: block;
+        color: #fff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .action-link:hover {
+        background-color: #218838;
+    }
+
+    .home {
+        display: block;
+        color: #fff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .home:hover {
+        background-color: #218838;
+    }
+</style>

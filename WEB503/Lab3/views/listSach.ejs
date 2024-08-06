@@ -1,0 +1,23 @@
+<style>
+    .btn-primary{
+        margin-top: 10px;
+    }
+</style>
+<div class="row row-cols-1 row-cols-md-3 g-0">
+    <% for (let s of listSach) { %>
+        <div class="card text-center">
+            <div class="card-header">
+                <%= s.tenSach %>
+            </div>
+            <div class="card-body">
+                <img src="/<%= s.urlHinh %>" style="height:400px; width:80%">
+                <a href="/book/<%= s.id %>" class="btn btn-primary"> Chi tiết sản phẩm </a>
+            </div>
+            <div class="card-footer text-muted">
+                <%= s.gia %>
+            </div>
+        </div>
+        <% } %>
+</div>
+<!-- <% for (let s of listSach) { %>
+    Sách <% } %> -->
